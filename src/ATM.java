@@ -10,7 +10,8 @@ public class ATM {
 	 public static final int VIEW = 1;
 	 public static final int DEPOSIT = 2;
 	 public static final int WITHDRAW = 3;
-	 public static final int LOGOUT = 4;
+	 public static final int LOGOUT = 5;
+	 public static final int TRANSFER = 4;
 	 public static final int FIRST_NAME_WIDTH = 20;
 	 public static final int LAST_NAME_WIDTH = 20;	
 	 
@@ -40,12 +41,23 @@ public class ATM {
         
         public void startup() {
             System.out.println("Welcome to the AIT ATM!\n");
+            long accountNo;
+            int pin;
             while (true) {
                 System.out.print("Account No.: ");
-                long accountNo = in.nextLong();
-                
+                if(in.hasNextLong()) {
+                	accountNo = in.nextLong();
+                } else {
+                	accountNo = 0;
+                	in.nextLine();
+                {
                 System.out.print("PIN        : ");
-                int pin = in.nextInt();
+                if(in.hasNextInt()) {
+                	pin = in.nextInt();
+                } else {
+                	pin = 0;
+                	in.nextLine();
+                }
                 
                 if (isValidLogin(accountNo, pin)) {
                 	activeAccount = bank.login(accountNo, pin);

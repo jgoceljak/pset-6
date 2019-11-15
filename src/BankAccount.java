@@ -5,6 +5,7 @@ public class BankAccount {
     private double balance;
     private User accountHolder;
     private Bank bank;
+    private static long prevAccountNo = 100000000L;
     
     public BankAccount(int pin, long accountNo, double balance, User accountHolder) {
         this.pin = pin;
@@ -15,14 +16,13 @@ public class BankAccount {
     public BankAccount(int pin, long accountNo, User accountHolder) {
         this.pin = pin;
         this.accountNo = accountNo;
-        this.balance = balance;
+        this.balance = 0.0;
         this.accountHolder = accountHolder;
     }
     public BankAccount(int pin, long accountNo) {
         this.pin = pin;
         this.accountNo = accountNo;
-        this.balance = balance;
-        this.accountHolder = accountHolder;
+        this.balance = 0.0;
     }
     
     public int getPin() {
