@@ -131,10 +131,10 @@ public class ATM {
         }
         
         public void transfer() {
-        	System.out.println("\nEnter account:");
+        	System.out.print("\nEnter account:");
         	long otherAccount = in.nextLong();
         	
-        	System.out.println("\nEnter amount");
+        	System.out.print("\nEnter amount:");
         	double transferAmount = in.nextDouble();
         	
         	BankAccount transferAccount = bank.getAccount(otherAccount);
