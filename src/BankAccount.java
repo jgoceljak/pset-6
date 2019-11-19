@@ -50,8 +50,14 @@ public class BankAccount {
         return ATM.SUCCESS;
     }
     
-    public void withdraw(double amount) {
-        balance = balance - amount;
+    public int withdraw(double amount) {
+        if (amount <= 0) {
+            return ATM.INVALID;    
+        } else {
+            balance = balance - amount;
+        }
+            
+        return ATM.SUCCESS;
     }
     
     ////////////////////////////////////////////////////////////////////////////
