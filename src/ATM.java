@@ -15,6 +15,10 @@ public class ATM {
 	 public static final int FIRST_NAME_WIDTH = 20;
 	 public static final int LAST_NAME_WIDTH = 20;	
 	 
+	 public static final int INVALID = 0;
+     public static final int INSUFFICIENT = 1;
+     public static final int SUCCESS = 2;
+	 
    
     ////////////////////////////////////////////////////////////////////////////
     //                                                                        //
@@ -50,7 +54,7 @@ public class ATM {
                 } else {
                 	accountNo = 0;
                 	in.nextLine();
-                {
+                }
                 System.out.print("PIN        : ");
                 if(in.hasNextInt()) {
                 	pin = in.nextInt();
@@ -68,6 +72,7 @@ public class ATM {
                             case VIEW: showBalance(); break;
                             case DEPOSIT: deposit(); break;
                             case WITHDRAW: withdraw(); break;
+                            case TRANSFER: transfer(); break;
                             case LOGOUT: validLogin = false; break;
                             default: System.out.println("\nInvalid selection.\n"); break;
                         }
@@ -81,6 +86,8 @@ public class ATM {
                 }
             }
         }
+
+    
         
         public boolean isValidLogin(long accountNo, int pin) {
         	boolean valid = false;
@@ -97,7 +104,8 @@ public class ATM {
             System.out.println("[1] View balance");
             System.out.println("[2] Deposit money");
             System.out.println("[3] Withdraw money");
-            System.out.println("[4] Logout");
+            System.out.println("[4] Transfer money");
+            System.out.println("[5] Logout");
             
             return in.nextInt();
         }
@@ -120,6 +128,18 @@ public class ATM {
             
             activeAccount.withdraw(amount);
             System.out.println();
+        }
+        
+        public void transfer() {
+        	System.out.println("\nEnter account:");
+        	long otherAccount = in.nextLong();
+        	
+        	System.out.println("\nEnter amount");
+        	double transferAmount = in.nextDouble();
+        	
+        	BankAccount transferAccount = bank.getAccount(otherAccount);
+        	int depositStatus = transferAccount.deposit(transferAmount);
+        	
         }
         
         public void shutdown() {
