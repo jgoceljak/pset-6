@@ -7,6 +7,9 @@ public class ATM {
 	private BankAccount activeAccount;
 	private Bank bank;
 	private User newUser;
+	
+    long accountNo = 0;
+    int pin = 0;
 	    
 	 public static final int VIEW = 1;
 	 public static final int DEPOSIT = 2;
@@ -46,30 +49,15 @@ public class ATM {
         
         public void startup() {
             System.out.println("Welcome to the AIT ATM!\n");
-            long accountNo;
-            int pin;
+
             while (true) {
-                System.out.print("Account No.: ");
-                if(in.hasNextLong()) {
-                	accountNo = in.nextLong();
-                } else if(in.nextLine().equals("+"))
-                		
-                } else {
-                	accountNo = 0;
-                	in.nextLine();
-                }
-                System.out.print("PIN        : ");
-                if(in.hasNextInt()) {
-                	pin = in.nextInt();
-                } else {
-                	pin = 0;
-                	in.nextLine();
-                }
+             login();
                 
                 if (isValidLogin(accountNo, pin)) {
                 	activeAccount = bank.login(accountNo, pin);
                     System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
                     boolean validLogin = true;
+                    System.out.println("test4");
                     while (validLogin) {
                         switch (getSelection()) {
                             case VIEW: showBalance(); break;
@@ -103,6 +91,31 @@ public class ATM {
             return valid;
         }
         
+        
+        public void login() {
+        	accountNo = 0;
+        	pin = 0;
+        	System.out.println("Account No.: ");
+        	
+        	
+        	System.out.println("test");
+           if(in.hasNextLong()) {
+            	accountNo = in.nextLong();
+            } else if(in.nextLine().equals("+")) {
+        		makeAccount();
+        	}else {
+            	System.out.println(accountNo);
+            }
+            System.out.print("PIN        : ");
+            if(in.hasNextInt()) {
+            	pin = in.nextInt();
+            } else {
+            	pin = 0;
+            	in.nextLine();
+            }
+        }
+        
+       
         public int getSelection() {
             System.out.println("[1] View balance");
             System.out.println("[2] Deposit money");
@@ -152,10 +165,14 @@ public class ATM {
            String lName = in.nextLine();
            System.out.print("\nPIN:");
            int newPIN = in.nextInt();
+           in.nextLine();
            
-           newUser = new User("Ryan", "Wilson");
+           newUser = new User(fName, lName);
            
-           newAccount = bank.createAccount(newPIN, newUser);
+           bank.createAccount(newPIN, newUser);
+           
+           bank.save();
+           login();
         }
         
         public void shutdown() {
@@ -164,6 +181,7 @@ public class ATM {
             }
             
             System.out.println("\nGoodbye!");
+            
             System.exit(0);
         }
         
