@@ -6,6 +6,7 @@ public class ATM {
 	private Scanner in;
 	private BankAccount activeAccount;
 	private Bank bank;
+	private User newUser;
 	    
 	 public static final int VIEW = 1;
 	 public static final int DEPOSIT = 2;
@@ -51,6 +52,8 @@ public class ATM {
                 System.out.print("Account No.: ");
                 if(in.hasNextLong()) {
                 	accountNo = in.nextLong();
+                } else if(in.nextLine().equals("+"))
+                		
                 } else {
                 	accountNo = 0;
                 	in.nextLine();
@@ -140,6 +143,19 @@ public class ATM {
         	BankAccount transferAccount = bank.getAccount(otherAccount);
         	int depositStatus = transferAccount.deposit(transferAmount);
         	
+        }
+        
+        public void makeAccount() {
+           System.out.print("\nFirst name:");
+           String fName = in.nextLine();
+           System.out.print("\nLast name:");
+           String lName = in.nextLine();
+           System.out.print("\nPIN:");
+           int newPIN = in.nextInt();
+           
+           newUser = new User("Ryan", "Wilson");
+           
+           newAccount = bank.createAccount(newPIN, newUser);
         }
         
         public void shutdown() {
