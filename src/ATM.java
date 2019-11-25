@@ -125,13 +125,13 @@ public class ATM {
         	System.out.print("PIN        : ");
         	String tempPin = in.nextLine();
         	if (tempPin.isEmpty()) {
-        		System.out.println("1");
+        		//System.out.println("1");
         		pin = 0;
         	} else if (isNumber(tempPin)) {
-        		System.out.println("2");
+        		//System.out.println("2");
         		pin = Integer.valueOf(tempPin);
         	} else {
-        		System.out.println("3");
+        		//System.out.println("3");
         		pin = -1;
         	}
         	
@@ -181,10 +181,11 @@ public class ATM {
                  System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n"); 
              } else if(depositStatus == ATM.OVERFILL) {
              	System.out.println("\nDeposit rejected. Amount would cause balance to exceed $999,999,999,999.99.\n");
-             }else if (depositStatus == ATM.SUCCESS) {
+             } else if (depositStatus == ATM.SUCCESS) {
                   System.out.println("\nDeposit accepted.\n");
                  bank.update(activeAccount);
                  bank.save();
+                 
              }
  		} else {
  			System.out.println("\nDeposit rejected. Enter vaild amount.\n");
@@ -193,11 +194,29 @@ public class ATM {
    }
         
         public void withdraw() {
-            System.out.print("\nEnter amount: ");
-            double amount = in.nextDouble();
-            
-            activeAccount.withdraw(amount);
-            System.out.println();
+        	double amount = 0;
+			boolean valid = true;
+    		System.out.print("\nEnter amount: ");
+    		try {
+    			amount = in.nextDouble();
+    		}catch(Exception e) {
+    			valid = false;
+    			in.nextLine();
+    		}
+    		if(valid) {
+    			int status = activeAccount.withdraw(amount);
+                if (status == ATM.INVALID) {
+                    System.out.println("\nWithdrawal rejected. Amount must be greater than $0.00.\n");
+                } else if (status == ATM.INSUFFICIENT) {
+                    System.out.println("\nWithdrawal rejected. Insufficient funds.\n");
+                } else if (status == ATM.SUCCESS) {
+                    System.out.println("\nWithdrawal accepted.\n");
+                    bank.update(activeAccount);
+                    bank.save();
+                }
+    		} else {
+    			System.out.println("\nWithdrawal rejected. Enter vaild amount.\n");
+    		}
         }
         
         public void transfer() {
@@ -231,7 +250,7 @@ public class ATM {
                       	
                    BankAccount newAccount = bank.createAccount(pin, newUser);
                    System.out.println("\nThank you. Your account number is " + newAccount.getAccountNo() + ".");
-                   System.out.println("Please login to access your newly created account.\n");
+                   System.out.println("\nPlease login to access your newly created account.\n");
                    bank.update(newAccount);
                    bank.save();
                    
