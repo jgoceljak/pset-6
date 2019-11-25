@@ -22,6 +22,8 @@ public class ATM {
 	 public static final int INVALID = 0;
      public static final int INSUFFICIENT = 1;
      public static final int SUCCESS = 2;
+     public static final int OVERFILL = 3; 
+     
 	 
    
     ////////////////////////////////////////////////////////////////////////////
@@ -131,12 +133,32 @@ public class ATM {
         }
         
         public void deposit() {
-            System.out.print("\nEnter amount: ");
-            double amount = in.nextDouble();
-            
-            activeAccount.deposit(amount);
-            System.out.println();
-        }
+        	
+        	double amount = 0;
+			boolean valid = true;
+    		System.out.print("\nEnter amount: ");
+    		try {
+    			amount = in.nextDouble();
+    		}catch(Exception e) {
+    			valid = false;
+    			in.nextLine();
+    		}
+    		 if (valid) {
+    			 int depositStatus = activeAccount.deposit(amount);
+    		 if (depositStatus == ATM.INVALID) {
+                 System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n"); 
+             } else if(depositStatus == ATM.OVERFILL) {
+             	System.out.println("\nDeposit rejected. Amount would cause balance to exceed $999,999,999,999.99.\n");
+             }else if (depositStatus == ATM.SUCCESS) {
+                  System.out.println("\nDeposit accepted.\n");
+                 bank.update(activeAccount);
+                 bank.save();
+             }
+ 		} else {
+ 			System.out.println("\nDeposit rejected. Enter vaild amount.\n");
+ 	   }
+       
+   }
         
         public void withdraw() {
             System.out.print("\nEnter amount: ");
