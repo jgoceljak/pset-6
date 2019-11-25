@@ -53,20 +53,50 @@ public class ATM {
             System.out.println("Welcome to the AIT ATM!\n");
 
             while (true) {
-             login();
-                
-                if (isValidLogin(accountNo, pin)) {
+            	long accountNo = 0;
+            	System.out.print("Account No.: ");
+            	String accountNoTemp = in.nextLine();
+            	if (accountNoTemp.isEmpty()) {
+            		//System.out.println("1");
+            		accountNo = 0;
+            		pin = getPin();
+            		attemptLogin(accountNo, pin);
+            	} else if (accountNoTemp.strip().equals("+")) {
+            		//System.out.println("2");
+            		accountNo = 0;
+            		makeAccount();	
+            	} else if(isNumber(accountNoTemp)) {
+            		//System.out.println("5");
+                	accountNo = Long.valueOf(accountNoTemp);
+                	pin = getPin();
+                	attemptLogin(accountNo, pin);
+            	} else if(accountNoTemp.equals("-1")) {
+            		//System.out.println("3");
+            		accountNo = -1;
+                	pin = getPin();
+                	attemptLogin(accountNo, pin);
+            	} else {
+            		//System.out.println("4");
+            		accountNo = 0;
+            		pin = getPin();
+            		attemptLogin(accountNo, pin);
+            	}
+               
+        }
+       }
+
+            public void attemptLogin(long accountNo, int pin) {
+            	if (isValidLogin(accountNo, pin)) {	
                 	activeAccount = bank.login(accountNo, pin);
                     System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
                     boolean validLogin = true;
-                    System.out.println("test4");
                     while (validLogin) {
                         switch (getSelection()) {
                             case VIEW: showBalance(); break;
                             case DEPOSIT: deposit(); break;
                             case WITHDRAW: withdraw(); break;
                             case TRANSFER: transfer(); break;
-                            case LOGOUT: validLogin = false; break;
+                            case LOGOUT: validLogin = false; in.nextLine(); break;
                             default: System.out.println("\nInvalid selection.\n"); break;
                         }
                     }
@@ -78,9 +108,6 @@ public class ATM {
                     }
                 }
             }
-        }
-
-    
         
         public boolean isValidLogin(long accountNo, int pin) {
         	boolean valid = false;
@@ -93,30 +120,35 @@ public class ATM {
             return valid;
         }
         
-        
-        public void login() {
-        	accountNo = 0;
-        	pin = 0;
-        	System.out.println("Account No.: ");
+        public int getPin() {
+        	int pin = 0;
+        	System.out.print("PIN        : ");
+        	String tempPin = in.nextLine();
+        	if (tempPin.isEmpty()) {
+        		System.out.println("1");
+        		pin = 0;
+        	} else if (isNumber(tempPin)) {
+        		System.out.println("2");
+        		pin = Integer.valueOf(tempPin);
+        	} else {
+        		System.out.println("3");
+        		pin = -1;
+        	}
         	
+        	return pin;
         	
-        	System.out.println("test");
-           if(in.hasNextLong()) {
-            	accountNo = in.nextLong();
-            } else if(in.nextLine().equals("+")) {
-        		makeAccount();
-        	}else {
-            	System.out.println(accountNo);
-            }
-            System.out.print("PIN        : ");
-            if(in.hasNextInt()) {
-            	pin = in.nextInt();
-            } else {
-            	pin = 0;
-            	in.nextLine();
-            }
         }
         
+        public boolean isNumber(String checkThis) {
+        	boolean numeric = true;
+        	for (int i = 0; i < checkThis.length(); i++ ) {
+                char char1 = checkThis.charAt(i);
+                if (!Character.isDigit(char1)) {
+                  numeric = false;
+        }
+      }
+        	return numeric;
+    }
        
         public int getSelection() {
             System.out.println("[1] View balance");
@@ -183,19 +215,36 @@ public class ATM {
         public void makeAccount() {
            System.out.print("\nFirst name:");
            String fName = in.nextLine();
-           System.out.print("\nLast name:");
-           String lName = in.nextLine();
-           System.out.print("\nPIN:");
-           int newPIN = in.nextInt();
-           in.nextLine();
+           if (fName != null && fName.length() <= 20 && fName.length() > 0) {
+        	   System.out.print("\nLast name:");
+               String lName = in.nextLine();
+               if (lName != null && lName.length() <= 30 && lName.length() > 0) {
+            	   System.out.print("\nPIN:");
+                   String tempPin = in.nextLine();
+                   if (tempPin.isEmpty()) {
+                	   pin = 0;
+                   } else if (isNumber(tempPin)) {
+                	   pin = Integer.valueOf(tempPin);
+                   } 
+                   if(pin >= 1000 && pin <= 9999) {
+               		newUser = new User(fName, lName);
+                      	
+                   BankAccount newAccount = bank.createAccount(pin, newUser);
+                   System.out.println("\nThank you. Your account number is " + newAccount.getAccountNo() + ".");
+                   System.out.println("Please login to access your newly created account.\n");
+                   bank.update(newAccount);
+                   bank.save();
+                   
+               } else {
+            	   System.out.println("\nYour PIN must be between 1000 and 9999.\n");
+               }
+           } else {System.out.println("\nYour last name must be between 1 and 30 characters in length.\n");
+           }
            
-           newUser = new User(fName, lName);
-           
-           bank.createAccount(newPIN, newUser);
-           
-           bank.save();
-           login();
-        }
+        } else {System.out.println("\nYour first name must be between 1 and 20 characters in length.\n");
+       }
+      }
+       
         
         public void shutdown() {
             if (in != null) {
