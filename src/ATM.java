@@ -243,7 +243,7 @@ public class ATM {
 
             System.out.print("Enter amount: ");
             double amount = in.nextDouble();
-            if(bank.getAccount(destinationAccount) == null) {
+            if (bank.getAccount(destinationAccount) == null) {
             	valid = false;
             }
             if (valid) {
@@ -259,14 +259,14 @@ public class ATM {
                         System.out.println("\nTransfer rejected. Amount would cause destination balance to exceed $999,999,999,999.99.\n");
                     } else if (depositStatus == ATM.SUCCESS) {
                     	System.out.println("\nTransfer accepted.\n");
+                    	
                     	bank.update(activeAccount);
                     	bank.save();
                     }
                 }
             } else {
             	System.out.println("\nTransfer rejected. Destination account not found.\n");
-            }
-        	
+            }	
         }
         
         public void makeAccount() {
@@ -286,28 +286,28 @@ public class ATM {
                    if(pin >= 1000 && pin <= 9999) {
                		newUser = new User(fName, lName);
                       	
-                   BankAccount newAccount = bank.createAccount(pin, newUser);
-                   System.out.println("\nThank you. Your account number is " + newAccount.getAccountNo() + ".");
-                   System.out.println("\nPlease login to access your newly created account.\n");
-                   bank.update(newAccount);
-                   bank.save();
-                   
+                    BankAccount newAccount = bank.createAccount(pin, newUser);
+                    System.out.println("\nThank you. Your account number is " + newAccount.getAccountNo() + ".");
+                    System.out.println("\nPlease login to access your newly created account.\n");
+                    
+                    bank.update(newAccount);
+                    bank.save(); 
                } else {
             	   System.out.println("\nYour PIN must be between 1000 and 9999.\n");
                }
-           } else {System.out.println("\nYour last name must be between 1 and 30 characters in length.\n");
-           }
-           
-        } else {System.out.println("\nYour first name must be between 1 and 20 characters in length.\n");
-       }
-      }
+           } else {
+        	   System.out.println("\nYour last name must be between 1 and 30 characters in length.\n");
+         }  
+        } else {
+        	System.out.println("\nYour first name must be between 1 and 20 characters in length.\n");
+     }
+   }
        
         
         public void shutdown() {
             if (in != null) {
                 in.close();
             }
-            
             System.out.println("\nGoodbye!");
             
             System.exit(0);
