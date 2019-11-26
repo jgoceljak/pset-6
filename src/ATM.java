@@ -82,7 +82,7 @@ public class ATM {
             		attemptLogin(accountNo, pin);
             	}
                
-        }
+           }
        }
 
             public void attemptLogin(long accountNo, int pin) {
@@ -115,7 +115,7 @@ public class ATM {
         	boolean valid = false;
         	try {
         		valid = bank.login(accountNo, pin) != null ? true : false;
-        	}catch (Exception e) {
+        	} catch (Exception e) {
         		valid = false;
         	}
         	
@@ -148,9 +148,9 @@ public class ATM {
                 char char1 = checkThis.charAt(i);
                 if (!Character.isDigit(char1)) {
                   numeric = false;
-        }
+          }
       }
-        	return numeric;
+        return numeric;
     }
        
         public int getSelection() {
@@ -161,7 +161,7 @@ public class ATM {
             System.out.println("[5] Logout");
             
             
-            if(in.hasNextInt()) {
+            if (in.hasNextInt()) {
             	return in.nextInt();
             } else {
             	in.nextLine();
@@ -181,7 +181,7 @@ public class ATM {
     		System.out.print("\nEnter amount: ");
     		try {
     			amount = in.nextDouble();
-    		}catch(Exception e) {
+    		} catch(Exception e) {
     			valid = false;
     			in.nextLine();
     		}
@@ -189,7 +189,7 @@ public class ATM {
     			 int depositStatus = activeAccount.deposit(amount);
     		 if (depositStatus == ATM.INVALID) {
                  System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n"); 
-             } else if(depositStatus == ATM.OVERFILL) {
+             } else if (depositStatus == ATM.OVERFILL) {
              	System.out.println("\nDeposit rejected. Amount would cause balance to exceed $999,999,999,999.99.\n");
              } else if (depositStatus == ATM.SUCCESS) {
                   System.out.println("\nDeposit accepted.\n");
@@ -209,11 +209,11 @@ public class ATM {
     		System.out.print("\nEnter amount: ");
     		try {
     			amount = in.nextDouble();
-    		}catch(Exception e) {
+    		} catch(Exception e) {
     			valid = false;
     			in.nextLine();
     		}
-    		if(valid) {
+    		if (valid) {
     			int status = activeAccount.withdraw(amount);
                 if (status == ATM.INVALID) {
                     System.out.println("\nWithdrawal rejected. Amount must be greater than $0.00.\n");
