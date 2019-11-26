@@ -189,7 +189,7 @@ public class ATM {
     		 if (depositStatus == ATM.INVALID) {
                  System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n"); 
              } else if(depositStatus == ATM.OVERFILL) {
-             	System.out.println("\nDeposit rejected. Amount would cause balance to exceed $999,999,999,999.99.\n");
+             	System.out.println("\nDeposit rejected. Depositing this amount would cause the balance to exceed $999,999,999,999.99.\n");
              } else if (depositStatus == ATM.SUCCESS) {
                   System.out.println("\nDeposit accepted.\n");
                  bank.update(activeAccount);
