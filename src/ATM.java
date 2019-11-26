@@ -14,10 +14,10 @@ public class ATM {
 	 public static final int VIEW = 1;
 	 public static final int DEPOSIT = 2;
 	 public static final int WITHDRAW = 3;
-	 public static final int LOGOUT = 5;
 	 public static final int TRANSFER = 4;
+	 public static final int LOGOUT = 5;
 	 public static final int FIRST_NAME_WIDTH = 20;
-	 public static final int LAST_NAME_WIDTH = 20;	
+	 public static final int LAST_NAME_WIDTH = 30;	
 	 
 	 public static final int INVALID = 0;
      public static final int INSUFFICIENT = 1;
@@ -272,10 +272,10 @@ public class ATM {
         public void makeAccount() {
            System.out.print("\nFirst name:");
            String fName = in.nextLine();
-           if (fName != null && fName.length() <= 20 && fName.length() > 0) {
+           if (fName != null && fName.length() <= FIRST_NAME_WIDTH && fName.length() > 0) {
         	   System.out.print("\nLast name:");
                String lName = in.nextLine();
-               if (lName != null && lName.length() <= 30 && lName.length() > 0) {
+               if (lName != null && lName.length() <= LAST_NAME_WIDTH && lName.length() > 0) {
             	   System.out.print("\nPIN:");
                    String tempPin = in.nextLine();
                    if (tempPin.isEmpty()) {
