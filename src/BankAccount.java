@@ -4,7 +4,6 @@ public class BankAccount {
     private long accountNo;
     private double balance;
     private User accountHolder;
-    private Bank bank;
     
     public BankAccount(int pin, long accountNo, double balance, User accountHolder) {
         this.pin = pin;
@@ -17,11 +16,6 @@ public class BankAccount {
         this.accountNo = accountNo;
         this.balance = 0.0;
         this.accountHolder = accountHolder;
-    }
-    public BankAccount(int pin, long accountNo) {
-        this.pin = pin;
-        this.accountNo = accountNo;
-        this.balance = 0.0;
     }
     
     public int getPin() {
