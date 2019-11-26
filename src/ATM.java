@@ -91,6 +91,7 @@ public class ATM {
                     System.out.println("\nHello, again, " + activeAccount.getAccountHolder().getFirstName() + "!\n");
                     boolean validLogin = true;
                     while (validLogin) {
+                    	
                         switch (getSelection()) {
                             case VIEW: showBalance(); break;
                             case DEPOSIT: deposit(); break;
@@ -99,6 +100,7 @@ public class ATM {
                             case LOGOUT: validLogin = false; in.nextLine(); break;
                             default: System.out.println("\nInvalid selection.\n"); break;
                         }
+                    
                     }
                 } else {
                     if (accountNo == -1 && pin == -1) {
@@ -157,7 +159,14 @@ public class ATM {
             System.out.println("[4] Transfer money");
             System.out.println("[5] Logout");
             
-            return in.nextInt();
+            
+            if(in.hasNextInt()) {
+            	return in.nextInt();
+            } else {
+            	in.nextLine();
+            	return 0;
+            }
+            
         }
         
         public void showBalance() {
