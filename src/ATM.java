@@ -141,6 +141,7 @@ public class ATM {
         	
         }
         
+        //use to see if an input is a number
         public boolean isNumber(String checkThis) {
         	boolean numeric = true;
         	for (int i = 0; i < checkThis.length(); i++ ) {
@@ -229,24 +230,24 @@ public class ATM {
         }
         
         public void transfer() {
-        	long secondAccount;
+        	long destinationAccount;
         	boolean valid = true;
             System.out.print("\nEnter account: ");
             if (in.hasNextLong()) {
-            	secondAccount = in.nextLong();
+            	destinationAccount = in.nextLong();
             } else {
-            	secondAccount = 0;
+            	destinationAccount = 0;
             	in.nextLine();
             	in.nextLine();
             }
 
             System.out.print("Enter amount: ");
             double amount = in.nextDouble();
-            if(bank.getAccount(secondAccount) == null) {
+            if(bank.getAccount(destinationAccount) == null) {
             	valid = false;
             }
             if (valid) {
-            	BankAccount transferAccount = bank.getAccount(secondAccount);
+            	BankAccount transferAccount = bank.getAccount(destinationAccount);
             	int withdrawStatus = activeAccount.withdraw(amount);
             	if (withdrawStatus == ATM.INVALID) {
                     System.out.println("\nTransfer rejected. Amount must be greater than $0.00.\n");
